@@ -1,4 +1,8 @@
+Interface Images
+![INFO](https://github.com/SaeedSubayyal/Zouq-Food-RecommenderAI/assets/127910222/8630ead7-3b0c-4092-b439-ca1a11fa0a90)
 
+![FRONT](https://github.com/SaeedSubayyal/Zouq-Food-RecommenderAI/assets/127910222/6f50f170-8123-4814-8388-4fb418dd253d)
+![final tempo](https://github.com/SaeedSubayyal/Zouq-Food-RecommenderAI/assets/127910222/040676ae-0d9f-4a71-beaa-e56b6db39eaa)
 Description:
 Food Recommender System Description:
 
@@ -31,8 +35,4 @@ Efficiency: The system streamlines the recipe discovery process, saving users ti
 Adaptability: The recommendation model continuously learns and adapts to changing user preferences and trends, ensuring that recommendations remain relevant and up-to-date over time.
 
 In summary, our Food Recommender System combines cutting-edge machine learning techniques with a user-centric approach to deliver a seamless and enjoyable recipe discovery experience for users.
-Interface Images
-![INFO](https://github.com/SaeedSubayyal/Zouq-Food-RecommenderAI/assets/127910222/8630ead7-3b0c-4092-b439-ca1a11fa0a90)
 
-![FRONT](https://github.com/SaeedSubayyal/Zouq-Food-RecommenderAI/assets/127910222/6f50f170-8123-4814-8388-4fb418dd253d)
-![final tempo](https://github.com/SaeedSubayyal/Zouq-Food-RecommenderAI/assets/127910222/040676ae-0d9f-4a71-beaa-e56b6db39eaa)
