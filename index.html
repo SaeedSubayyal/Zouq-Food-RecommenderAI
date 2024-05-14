@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Zouq APP</title>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="header">
+        <nav class="nav-bar">
+            <img src="./assets/img/Logo.png" class="brand-name">
+            <a href="#" class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </a>
+            <div class="menu-bar">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Search Bar -->
+        <div class="title"> ZOUQ RECOMMENDER</div>
+        <div class="search-wrapper">
+            <div class="fa fa-search"></div>
+            <input type="text" name="" id="search" placeholder="Please search">
+            <div class="fa fa-times" onclick="clearInput()" ></div>
+        </div>
+    </div>
+
+    <!-- Search Results -->
+    <div class="result">
+        <h1>Your Search Result: </h1>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="card-grid">
+        <div class="food-list" id="food-list">
+            <p id="none" style="display: none;">Sorry, the food you were looking for was not available.</p>
+        </div>
+    </div>
+
+    <!-- Recipe Details Placeholder -->
+    <div class="meal-detail" id="meal-detail">
+        <!-- recipe close btn -->
+        <button type="button" class="btn recipe-close-btn" id="recipe-close-btn" onclick="closeBtn()">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- recipe details placeholder -->
+        <div class="meal-content">
+            <h2 class="meal-name" id="meal-name">Recipe Name</h2>
+            <div class="meal-about">
+                <h3 class="meal-title-about">About Meal</h3>
+                <p class="meal-descript-about" id="meal-descript-about">Description</p>
+            </div>
+            <div class="meal-instruct">
+                <h3>Ingredients:</h3>
+                <p id="meal-ingredients">Ingredients List</p>
+                <h3>Instruction:</h3>
+                <p id="meal-instruction">Cooking Instructions</p>
+            </div>
+            <div class="meal-img">
+                <img src="" alt="" id="meal-img">
+            </div>
+            <div class="meal-link">
+                <a href="#" class="meal-link-btn" id="meal-link">Watch Video</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="social-btn">
+           <a href="https://github.com/SaeedSubayyal/Zouq-Food-RecommenderAI" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+        <div class="quick-bar">
+            <a href="index.html">Home</a>
+
+        </div>
+        <p>Copyright &copy; Zouq. All right reserved</p>  
+    </div>
+
+<!-- Javascript -->
+<script>
+// Function to clear search input
+function clearInput() {
+    document.getElementById('search').value = "";
+    document.getElementById('food-list').innerHTML = "";
+}
+
+// Function to search recipes and update UI
+function searchRecipes() {
+    let searchQuery = document.getElementById("search").value.trim();
+    if (searchQuery.length > 0) {
+        $.ajax({
+            url: '/recommend',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ preferences: searchQuery }),
+            success: function(recipes) {
+                displayRecipes(recipes);
+            },
+            error: function() {
+                alert("Error searcng recipes.");
+            }
+        });
+    } else {
+        document.getElementById('food-list').innerHTML = "";
+    }
+}
+
+// Function to display recipes
+function displayRecipes(recipes) {
+    let foodList = document.getElementById('food-list');
+    foodList.innerHTML = "";
+
+    if (recipes.length == 0) {
+        foodList.innerHTML = "<p>Sorry, no recipes found.</p>";
+    } else {
+        recipes.forEach(function(recipe, index) {
+            foodList.innerHTML += `
+                <div class="card card-shadow">
+                    <div class="card-header card-image">
+                        <img src="${recipe.image_url}">
+                    </div>
+                    <div class="card-body">
+                        <h3>${recipe.name}</h3>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn" onclick="showRecipeDetails(${index})">Get Recipe</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+}
+
+// Function to show recipe details in a modal
+function showRecipeDetails(index) {
+    $.ajax({
+        url: '/recommend',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ preferences: document.getElementById("search").value.trim() }),
+        success: function(recipes) {
+            let recipe = recipes[index];
+            document.getElementById('meal-name').textContent = recipe.name;
+            document.getElementById('meal-descript-about').textContent = recipe.description;
+            document.getElementById('meal-ingredients').textContent = recipe.ingredients;
+            document.getElementById('meal-instruction').textContent = recipe.directions;
+            document.getElementById('meal-img').src = recipe.image_url;
+            document.getElementById('meal-detail').style.display = 'block';
+        },
+        error: function() {
+            alert("Error loading recipe details.");
+        }
+    });
+}
+
+// Function to close the recipe details modal
+function closeBtn() {
+    document.getElementById('meal-detail').style.display = 'none';
+}
+</script>
+<script src="./assets/index.js"></script>
+</body>
+</html>
